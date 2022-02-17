@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ReduceService } from './reduce.service';
+import { ReduceService } from '../reduce.service';
 
 @Component({
   selector: 'app-reduce',
