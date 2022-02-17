@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { FilterFindIncludesComponent } from './filter-find-includes/filter-find-includes.component';
-import { ReduceComponent } from './reduce/reduce.component';
+import { ReduceComponent } from './reduce/reduce-por-sexo/reduce.component';
 
 @NgModule({
   declarations: [
