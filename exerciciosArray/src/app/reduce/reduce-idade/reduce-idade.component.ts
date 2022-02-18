@@ -3,65 +3,90 @@ import { ReduceService } from '../reduce.service';
 
 @Component({
   selector: 'app-reduce-idade',
-  templateUrl: './reduce-idade.component.html', 
+  templateUrl: './reduce-idade.component.html',
 })
 export class ReduceIdadeComponent implements OnInit {
- results: any[] = [];
- pessoasMaiores: any[] = [];
- pessoasMenores: any[] = [];
- pessoasMaioresSpread: any[] = [];
- pessoasMenoresSpread: any[] = [];
-  constructor(private reduceService: ReduceService) { }
+  results: any[] = [];
+  pessoasMaiores: any[] = [];
+  pessoasMenores: any[] = [];
+  pessoasMaioresSpread: any[] = [];
+  pessoasMenoresSpread: any[] = [];
+  constructor(private reduceService: ReduceService) {}
 
   ngOnInit(): void {
-   this.reduceService.getPeople(10).then((data: any) => {
-    this.results = data.results;
-    console.log('Results', this.results);
-    /**
-     * Reduce somente
-     */
-    this.pessoasMaiores = this.results.reduce((novo: any[], item, index: number, arrayAtual: any[]) => {
-      const isHigher = arrayAtual.map((idade: any) => idade.dob.age >= 40);
-       isHigher[index] ? novo.push(item) : null
-      return novo;
-    },[]);
+    this.reduceService
+      .getPeople(10)
+      .then((data: any) => {
+        this.results = data.results;
+        console.log('Results', this.results);
+        /**
+         * Reduce somente
+         */
+        this.pessoasMaiores = this.results.reduce(
+          (novo: any[], item, index: number, arrayAtual: any[]) => {
+            const isHigher = arrayAtual.map(
+              (idade: any) => idade.dob.age >= 40
+            );
+            isHigher[index] ? novo.push(item) : null;
+            return novo;
+          },
+          []
+        );
 
-   this.pessoasMenores = this.results.reduce((novo: any[], item, index: number, arrayAtual: any[]) => {
-     const isLesser = arrayAtual.map((idade: any) => idade.dob.age < 40);
-     isLesser[index] ? novo.push(item) : null;
-     return novo
-   },[]);
-   /**
-    * Reduce com Spread
-    */
-    this.pessoasMaioresSpread = this.results.reduce((novo: any[], item, index: number, arrayAtual: any[]) => {
-      const isHigher = arrayAtual.map((idade: any) => idade.dob.age >= 40);
-      return [...novo, isHigher[index] ? item : null].filter(itemFilter => itemFilter != null)
-    },[]);
+        this.pessoasMenores = this.results.reduce(
+          (novo: any[], item, index: number, arrayAtual: any[]) => {
+            const isLesser = arrayAtual.map((idade: any) => idade.dob.age < 40);
+            isLesser[index] ? novo.push(item) : null;
+            return novo;
+          },
+          []
+        );
+        /**
+         * Reduce com Spread
+         */
+        this.pessoasMaioresSpread = this.results.reduce(
+          (novo: any[], item, index: number, arrayAtual: any[]) => {
+            const isHigher = arrayAtual.map(
+              (idade: any) => idade.dob.age >= 40
+            );
+            return [...novo, isHigher[index] ? item : null].filter(
+              (itemFilter) => itemFilter != null
+            );
+          },
+          []
+        );
 
-    this.pessoasMenoresSpread = this.results.reduce((novo: any[], item, index: number, arrayAtual: any[]) => {
-      const isLesser = arrayAtual.map((idade: any) => idade.dob.age < 40);
-      return [...novo, isLesser[index] ? item : null].filter(itemInFilter => itemInFilter != null);
-    }, [])
+        this.pessoasMenoresSpread = this.results.reduce(
+          (novo: any[], item, index: number, arrayAtual: any[]) => {
+            const isLesser = arrayAtual.map((idade: any) => idade.dob.age < 40);
+            return [...novo, isLesser[index] ? item : null].filter(
+              (itemInFilter) => itemInFilter != null
+            );
+          },
+          []
+        );
+      })
+      .catch((error) => {
+        console.error('Erro da api: ', error);
+      })
+      .finally(() => {
+        console.group('O FINALLY é sempre execultado, tendo ou não erros');
+        console.log('É Nóis o Finally');
+        console.log(`O Finally é ideal caso precise chamar outra API
+         de backup caso a 1º venha falhar`);
+        console.groupEnd();
 
-
-   /**
-    * Bloco do console
-    */
-   console.group('Pessoas Maiores com REDUCE');
-   console.log(this.pessoasMaiores);
-   console.log(this.pessoasMenores);
-   console.groupEnd();
-   console.group('Pessoas Maiores com REDUCE e Spread');
-   console.log(this.pessoasMaioresSpread);
-   console.log(this.pessoasMenoresSpread);
-   console.groupEnd();
-
-   });
-
-
-
-
-  }//end NG
-
+        /**
+         * Bloco do console
+         */
+        console.group('Pessoas Maiores com REDUCE');
+        console.log(this.pessoasMaiores);
+        console.log(this.pessoasMenores);
+        console.groupEnd();
+        console.group('Pessoas Maiores com REDUCE e Spread');
+        console.log(this.pessoasMaioresSpread);
+        console.log(this.pessoasMenoresSpread);
+        console.groupEnd();
+      });
+  } //end NG
 }

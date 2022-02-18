@@ -3,9 +3,9 @@ import { ReduceService } from '../reduce.service';
 
 @Component({
   selector: 'app-reduce',
-  templateUrl: './reduce.component.html',
+  templateUrl: './reduce-sexo.component.html',
 })
-export class ReduceComponent implements OnInit {
+export class ReduceSexComponent implements OnInit {
   results: any[] = [];
   todosHomens: any[] = [];
   todasMulheres: any[] = [];
